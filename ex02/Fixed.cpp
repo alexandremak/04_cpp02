@@ -6,13 +6,13 @@
 /*   By: amak <amak@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 18:13:07 by amak              #+#    #+#             */
-/*   Updated: 2024/05/27 18:55:34 by amak             ###   ########.fr       */
+/*   Updated: 2024/05/27 21:32:51 by amak             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Fixed.hpp"
 
-Fixed::Fixed(void) : _rawBits(0) {}
+Fixed::Fixed() : _rawBits(0) {}
  
 Fixed::Fixed(const Fixed &fixedValue) {
 	*this = fixedValue;
@@ -35,57 +35,85 @@ Fixed	&Fixed::operator=(const Fixed &fixedValue) {
 	return *this;
 }
 
-bool	Fixed::operator>(const Fixed &fixedValue) {
+// ::###:: COMPARISON OPERATORS:
+
+bool	Fixed::operator>(const Fixed &fixedValue) const {
 	return (this->getRawBits() > fixedValue.getRawBits());
 }
 
-bool	Fixed::operator<(const Fixed &fixedValue) {
+bool	Fixed::operator<(const Fixed &fixedValue) const {
 	return (this->getRawBits() < fixedValue.getRawBits());
 }
 
-bool	Fixed::operator>=(const Fixed &fixedValue) {
+bool	Fixed::operator>=(const Fixed &fixedValue) const {
 	return (this->getRawBits() >= fixedValue.getRawBits());
 }
 
-bool	Fixed::operator<=(const Fixed &fixedValue) {
+bool	Fixed::operator<=(const Fixed &fixedValue) const {
 	return (this->getRawBits() <= fixedValue.getRawBits());
 }
 
-bool	Fixed::operator==(const Fixed &fixedValue) {
+bool	Fixed::operator==(const Fixed &fixedValue) const {
 	return (this->getRawBits() == fixedValue.getRawBits());
 }
 
-bool	Fixed::operator!=(const Fixed &fixedValue) {
+bool	Fixed::operator!=(const Fixed &fixedValue) const {
 	return (this->getRawBits() != fixedValue.getRawBits());
 }
 
-Fixed	&Fixed::operator+(const Fixed &fixedValue) {
-	Fixed newFixedValue;
-	
-	newFixedValue.setRawBits(this->getRawBits() + fixedValue.getRawBits());
+// ::###::  ARITHMETIC OPERATORS: 
+
+Fixed	Fixed::operator+(const Fixed &fixedValue) const {
+	Fixed newFixedValue(this->toFloat() + fixedValue.toFloat());
 	return (newFixedValue);
 }
 
-Fixed	&Fixed::operator-(const Fixed &fixedValue) {
-	Fixed newFixedValue;
-	
-	newFixedValue.setRawBits(this->getRawBits() - fixedValue.getRawBits());
+Fixed	Fixed::operator-(const Fixed &fixedValue) const {
+	Fixed newFixedValue(this->toFloat() - fixedValue.toFloat());
 	return (newFixedValue);
 }
 
-Fixed	&Fixed::operator*(const Fixed &fixedValue) {
-	Fixed newFixedValue;
-	
-	newFixedValue.setRawBits(this->getRawBits() * fixedValue.getRawBits());
+Fixed	Fixed::operator*(const Fixed &fixedValue) const {
+	Fixed newFixedValue(this->toFloat() * fixedValue.toFloat());
 	return (newFixedValue);
 }
 
-Fixed	&Fixed::operator/(const Fixed &fixedValue) {
-	Fixed newFixedValue;
-	
-	newFixedValue.setRawBits(this->getRawBits() / fixedValue.getRawBits());
+Fixed	Fixed::operator/(const Fixed &fixedValue) const {
+	if (fixedValue.getRawBits() == 0) {
+		std::cout << "Error: Cannot divide by zero!" << std::endl;
+		exit(1);
+	}
+	Fixed newFixedValue(this->toFloat() / fixedValue.toFloat());
 	return (newFixedValue);
 }
+
+// ::###::  INCREMENT/DECREMENT OPERATORS:
+
+Fixed 	&Fixed::operator++() {
+	this->setRawBits(this->getRawBits() + 1);
+	return (*this);
+}
+
+Fixed 	Fixed::operator++(int) {
+	Fixed fixedValue(*this);
+	
+	this->setRawBits(this->getRawBits() + 1);
+	return (fixedValue);
+}
+
+Fixed 	&Fixed::operator--() {
+	this->setRawBits(this->getRawBits() - 1);
+	return (*this);
+}
+
+Fixed 	Fixed::operator--(int) {
+	Fixed fixedValue(*this);
+	
+	this->setRawBits(this->getRawBits() - 1);
+	return (fixedValue);
+}
+
+// ::###::  MEMBER FUNCTIONS:
 
 int	Fixed::getRawBits( void ) const {
 	return this->_rawBits;
@@ -101,6 +129,24 @@ float	Fixed::toFloat( void ) const {
 int		Fixed::toInt( void ) const {
 	return (this->_rawBits >> this->_fracBits);
 }
+
+Fixed	&Fixed::min(Fixed &a, Fixed &b) {
+	return ((a < b) ? a : b);
+}
+
+const Fixed	&Fixed::min(const Fixed &a, const Fixed &b) {
+	return ((a < b) ? a : b);
+}
+
+Fixed	&Fixed::max(Fixed &a, Fixed &b) {
+	return ((a > b) ? a : b);
+}
+
+const Fixed	&Fixed::max(const Fixed &a, const Fixed &b) {
+	return ((a > b) ? a : b);
+}
+
+// FUNCTIONS:
 
 std::ostream &operator<<(std::ostream &output, const Fixed &fixedValue) {
 	output << fixedValue.toFloat();
