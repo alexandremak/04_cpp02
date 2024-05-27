@@ -6,7 +6,7 @@
 /*   By: amak <amak@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 22:15:34 by amak              #+#    #+#             */
-/*   Updated: 2024/05/24 23:06:09 by amak             ###   ########.fr       */
+/*   Updated: 2024/05/27 19:04:32 by amak             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ class Fixed {
 
 	public:
 		Fixed();
-		Fixed(const Fixed &fixedPoint);
+		Fixed(const Fixed &FixedValue);
 		Fixed(const int intValue);
 		Fixed(const float floatValue);
-		Fixed &operator=(const Fixed &fixedPoint);
+		Fixed &operator=(const Fixed &FixedValue);
 		~Fixed();
 		
 		int		getRawBits( void ) const;
@@ -35,6 +35,6 @@ class Fixed {
 		int		toInt( void ) const;
 };
 
-std::ostream &operator<<(std::ostream &output, const Fixed &fixedPoint);
+std::ostream &operator<<(std::ostream &output, const Fixed &FixedValue);
 
 #endif

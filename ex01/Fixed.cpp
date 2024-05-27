@@ -6,7 +6,7 @@
 /*   By: amak <amak@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 22:15:49 by amak              #+#    #+#             */
-/*   Updated: 2024/05/24 23:39:12 by amak             ###   ########.fr       */
+/*   Updated: 2024/05/27 19:04:56 by amak             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ Fixed::Fixed() : _rawBits(0) {
 	std::cout << "Default constructor called" << std::endl;
 }
  
-Fixed::Fixed(const Fixed &fixedPoint) {
+Fixed::Fixed(const Fixed &FixedValue) {
 	std::cout << "Copy constructor called" << std::endl;
-	*this = fixedPoint;
+	*this = FixedValue;
 }
 
 Fixed::Fixed(const int intValue) {
@@ -31,10 +31,10 @@ Fixed::Fixed(const float floatValue) {
 	this->_rawBits = roundf(floatValue * (1 << this->_fracBits));
 }
 
-Fixed &Fixed::operator=(const Fixed &fixedPoint) {
+Fixed &Fixed::operator=(const Fixed &FixedValue) {
 	std::cout << "Copy assignment operator called" << std::endl;
-	if (this != &fixedPoint) {
-		this->_rawBits = fixedPoint.getRawBits();
+	if (this != &FixedValue) {
+		this->_rawBits = FixedValue.getRawBits();
 	}
 	return *this;
 }
@@ -60,7 +60,7 @@ int		Fixed::toInt( void ) const {
 	return (this->_rawBits >> this->_fracBits);
 }
 
-std::ostream &operator<<(std::ostream &output, const Fixed &fixedPoint) {
-	output << fixedPoint.toFloat();
+std::ostream &operator<<(std::ostream &output, const Fixed &FixedValue) {
+	output << FixedValue.toFloat();
 	return output;
 }
