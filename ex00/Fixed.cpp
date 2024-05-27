@@ -6,13 +6,13 @@
 /*   By: amak <amak@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 22:18:22 by amak              #+#    #+#             */
-/*   Updated: 2024/05/27 19:02:13 by amak             ###   ########.fr       */
+/*   Updated: 2024/05/27 19:15:50 by amak             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Fixed.hpp"
 
-Fixed::Fixed(void) : rawBits(0) {
+Fixed::Fixed() : rawBits(0) {
 	std::cout << "Default constructor called" << std::endl;
 }
  
